@@ -12,6 +12,7 @@ import {
   PopoverContent
 } from '@nextui-org/react';
 import { createProblem } from '@/actions';
+import FormButton from '@/components/common/form-button';
 
 const CONTENT = 'New Problem';
 
@@ -40,7 +41,7 @@ export default function ProblemCreateForm() {
               name="name"
               label="Name"
               labelPlacement="outside"
-              placeholder="Name"
+              placeholder="lowercase-with-dashes"
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}
             />
@@ -52,9 +53,9 @@ export default function ProblemCreateForm() {
               isInvalid={!!formState.errors.description}
               errorMessage={formState.errors.description?.join(', ')}
             />
-            <Button type="submit" color="success">
+            <FormButton color="success" type="submit">
               Submit
-            </Button>
+            </FormButton>
           </div>
         </form>
       </PopoverContent>
