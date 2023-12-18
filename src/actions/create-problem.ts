@@ -2,6 +2,11 @@
 
 import { z } from 'zod';
 import { auth } from '@/auth';
+import { Problem } from '@prisma/client';
+import { prisma } from '@/db';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import paths from '@/path';
 
 const createProblemSchema = z.object({
   name: z
@@ -23,7 +28,7 @@ export interface CreateProblemFormState {
 }
 
 export async function createProblem(
-  formState: CreateProblemFormState,
+  _formState: CreateProblemFormState,
   formData: FormData
 ): Promise<CreateProblemFormState> {
   const session = await auth();
@@ -41,6 +46,22 @@ export async function createProblem(
     return { errors: result.error.flatten().fieldErrors };
   }
 
+  let problem: Problem;
+  try {
+    problem = await prisma.problem.create({
+      data: {
+        slug: result.data.name,
+        description: result.data.description
+      }
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { errors: { _form: [error.message] } };
+    } else {
+      return { errors: { _form: ['An unknown error occurred'] } };
+    }
+  }
   // revalidate home page
-  return { errors: {} };
+  revalidatePath(paths.home());
+  redirect(paths.problem(problem.slug));
 }
