@@ -1,7 +1,7 @@
 'use client';
 import { useFormState } from 'react-dom';
 import { useMemo, useEffect } from 'react';
-import { CreateProblemFormState } from '@/actions/create-problem';
+import type { CreateProblemFormState } from '@/actions/create-problem';
 import toast from 'react-hot-toast';
 import {
   Input,
@@ -21,7 +21,7 @@ export default function ProblemCreateForm() {
     createProblem,
     { errors: {} }
   );
-  const {_form} = useMemo(() => formState.errors, [formState.errors]);
+  const {_form, name, description} = useMemo(() => formState.errors, [formState.errors]);
   useEffect(() => {
     if (_form && _form.length > 0) {
       toast.error(_form?.join(', '));
@@ -42,16 +42,16 @@ export default function ProblemCreateForm() {
               label="Name"
               labelPlacement="outside"
               placeholder="lowercase-with-dashes"
-              isInvalid={!!formState.errors.name}
-              errorMessage={formState.errors.name?.join(', ')}
+              isInvalid={!!name}
+              errorMessage={name?.join(', ')}
             />
             <Textarea
               name="description"
               label="Description"
               labelPlacement="outside"
               placeholder="Describe the problem"
-              isInvalid={!!formState.errors.description}
-              errorMessage={formState.errors.description?.join(', ')}
+              isInvalid={!!description}
+              errorMessage={description?.join(', ')}
             />
             <FormButton color="success" type="submit">
               Submit

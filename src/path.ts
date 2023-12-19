@@ -5,6 +5,9 @@ const paths = {
   problem (slug: string) {
     return `/problem/${slug}`;
   },
+  problems () {
+    return '/problem';
+  },
   postCreate (slug: string) {
     return `/problem/${slug}/post/create`;
   },

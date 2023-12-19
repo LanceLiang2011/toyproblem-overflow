@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { auth } from '@/auth';
-import { Problem } from '@prisma/client';
+import type { Problem } from '@prisma/client';
 import { prisma } from '@/db';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
@@ -34,7 +34,7 @@ export async function createProblem(
   const session = await auth();
 
   if (!session || !session.user) {
-    return { errors: { _form: ['You must be sign in to create a problem'] } };
+    return { errors: { _form: ['You must sign in to create a problem'] } };
   }
 
   const result = createProblemSchema.safeParse({
@@ -63,5 +63,7 @@ export async function createProblem(
   }
   // revalidate home page
   revalidatePath(paths.home());
+  // revalidate problems page
+  revalidatePath(paths.problems());
   redirect(paths.problem(problem.slug));
 }
