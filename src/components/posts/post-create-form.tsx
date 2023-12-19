@@ -38,7 +38,7 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
     }
   }, [_form, content]);
   const [code, setCode] = useState('// Write your code here');
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const handleEditorChange = (value?: string) => setCode(value || '');
 
   return (

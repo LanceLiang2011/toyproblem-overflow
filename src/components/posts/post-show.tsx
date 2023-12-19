@@ -1,5 +1,6 @@
 import { Code } from "bright"
 import { prisma } from "@/db";
+import { notFound } from "next/navigation";
 
 interface PostShowProps {
   postId: string;
@@ -13,7 +14,7 @@ export default async function PostShow({postId}: PostShowProps) {
   });
 
   if(!post) {
-    return <div>Post not found</div>
+    notFound();
   }
   return (
     <div className="m-4">
