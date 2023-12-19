@@ -1,4 +1,6 @@
 import PostCreateForm from '@/components/posts/post-create-form';
+import PostsList from '@/components/posts/posts-list';
+import { getPostsByProblemSlug } from '@/db/queries/posts';
 
 interface ProblemPageProps {
   params: {
@@ -20,6 +22,7 @@ export default function ProblemPage({ params }: ProblemPageProps) {
     <div className="grid grid-cols-4 gap-4 p-4">
       <div className="col-span-3">
         <h1 className="text-2xl font-bold mb-2">{slugToTitle(slug)}</h1>
+        <PostsList getPosts={() => getPostsByProblemSlug(slug)} />
       </div>
       <div>
         <PostCreateForm slug={slug} />

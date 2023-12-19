@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/db';
 import { Chip } from '@nextui-org/react';
-import paths from '@/path';
+import paths from '@/paths';
 
 export default async function ProblemsPage() {
   const problems = await prisma.problem.findMany();

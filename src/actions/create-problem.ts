@@ -6,7 +6,7 @@ import type { Problem } from '@prisma/client';
 import { prisma } from '@/db';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import paths from '@/path';
+import paths from '@/paths';
 
 const createProblemSchema = z.object({
   name: z
