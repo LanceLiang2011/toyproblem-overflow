@@ -37,7 +37,11 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
       toast.error(_form?.join(', '));
     }
   }, [_form, content]);
-  const [code, setCode] = useState('function solution() {// your code here}');
+  const [code, setCode] = useState(
+    `function solution() {
+      // your code here
+    }`
+  );
   const [darkMode, setDarkMode] = useState(true);
   const handleEditorChange = (value?: string) => setCode(value || '');
 
