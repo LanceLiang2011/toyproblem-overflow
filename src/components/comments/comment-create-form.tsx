@@ -30,7 +30,7 @@ export default function CommentCreateForm({
   useEffect(() => {
     if (success) {
       ref.current?.reset();
-
+      toast.success('Comment created successfully');
       if (!startOpen) {
         setOpen(false);
       }

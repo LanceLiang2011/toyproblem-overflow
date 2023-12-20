@@ -1,4 +1,3 @@
-// TODO: testing users' post content is valid JavaScript code and have at least one function declaration.
 var esprima = require('esprima');
 
 export function isSolutionValid (content: string): boolean | string {
