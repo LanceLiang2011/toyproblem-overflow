@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import paths from '@/paths';
+var esprima = require('esprima');
+
 
 const createPostSchema = z.object({
   title: z.string().min(3).max(50),
@@ -47,6 +49,8 @@ export async function createPost(
 
   let post: Post;
   try {
+    esprima.parseScript(result.data.content);
+
     post = await prisma.post.create({
       data: {
         title: result.data.title,
@@ -57,7 +61,7 @@ export async function createPost(
     });
   } catch (error) {
     if (error instanceof Error) {
-      return { errors: { _form: [error.message] } };
+      return { errors: { _form: ['Your code might be invalid',error.message] } };
     }
     return { errors: { _form: ['Unknown error'] } };
   }
