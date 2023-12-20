@@ -1,6 +1,8 @@
 import PostCreateForm from '@/components/posts/post-create-form';
 import PostsList from '@/components/posts/posts-list';
 import { getPostsByProblemSlug } from '@/db/queries/posts';
+import { prisma } from '@/db';
+import { Card, CardHeader, CardBody } from '@nextui-org/react';
 
 interface ProblemPageProps {
   params: {
@@ -15,17 +17,33 @@ const slugToTitle = (slug: string) =>
     .map(s => capitalize(s))
     .join(' ');
 
-export default function ProblemPage({ params }: ProblemPageProps) {
+export default async function ProblemPage({ params }: ProblemPageProps) {
   const { slug } = params;
+
+  const problem = await prisma.problem.findFirst(
+    {
+      where: {
+        slug,
+      },
+    },
+  );
 
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
       <div className="col-span-3">
-        <h1 className="text-2xl font-bold mb-2">{slugToTitle(slug)}</h1>
+        <h1 className="text-2xl font-bold mb-2">Solutions for {slugToTitle(slug)}</h1>
         <PostsList getPosts={() => getPostsByProblemSlug(slug)} />
       </div>
-      <div>
+      <div className="p-2">
         <PostCreateForm slug={slug} />
+        <div className="mt-4">
+          <Card>
+            <CardHeader className="font-bold">{slugToTitle(slug)}</CardHeader>
+            <CardBody>
+              <p>{problem?.description}</p>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </div>
   );

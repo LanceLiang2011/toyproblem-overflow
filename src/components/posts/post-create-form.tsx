@@ -42,7 +42,7 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
   const handleEditorChange = (value?: string) => setCode(value || '');
 
   return (
-    <Popover placement="bottom">
+    <Popover placement="left-start">
       <PopoverTrigger>
         <Button color="primary">Post a solution</Button>
       </PopoverTrigger>
