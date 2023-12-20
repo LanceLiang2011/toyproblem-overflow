@@ -14,6 +14,18 @@ export function getPostsByProblemSlug(slug: string): Promise<PostWithData[]> {
       problem: { select: { slug: true } },
       user: { select: { name: true } },
       _count: { select: { comments: true } }
+    }
+  });
+}
+
+export function getTopPosts(n: number = 6): Promise<PostWithData[]> {
+  return prisma.post.findMany({
+    orderBy: { comments: { _count: 'desc' } },
+    include: {
+      problem: { select: { slug: true } },
+      user: { select: { name: true } },
+      _count: { select: { comments: true } }
     },
+    take: n
   });
 }
