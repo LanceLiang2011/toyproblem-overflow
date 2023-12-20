@@ -80,6 +80,7 @@ export async function createComment(
   }
 
   revalidatePath(paths.post(problem.slug, postId));
+  revalidatePath(paths.home());
   return {
     errors: {},
     success: true,

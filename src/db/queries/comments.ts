@@ -1,5 +1,6 @@
 import type { Comment } from '@prisma/client';
 import { prisma } from '@/db';
+import { cache } from 'react';
 
 export interface CommentWithUser extends Comment {
   user: {
@@ -8,20 +9,20 @@ export interface CommentWithUser extends Comment {
   };
 }
 
-export function getCommentsWithUser(
-  postId: string
-): Promise<CommentWithUser[]> {
-  return prisma.comment.findMany({
-    where: {
-      postId: postId
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-          image: true
+export const getCommentsWithUser = cache(
+  (postId: string): Promise<CommentWithUser[]> => {
+    return prisma.comment.findMany({
+      where: {
+        postId: postId
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true
+          }
         }
       }
-    }
-  });
-}
+    });
+  }
+);
