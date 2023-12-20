@@ -1,13 +1,15 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Input
+  Skeleton,
 } from '@nextui-org/react';
-import { CiSearch } from 'react-icons/ci';
+
 import HeaderAuth from '@/components/header-auth';
+import SearchInput from '@/components/search-input';
 
 export default function Header() {
   return (
@@ -19,7 +21,9 @@ export default function Header() {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem>
-          <Input placeholder="Search..." startContent={<CiSearch />} />
+          <Suspense fallback={<Skeleton className="h-10 w-56 rounded" />}>
+            <SearchInput />
+          </Suspense>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">

@@ -29,3 +29,19 @@ export function getTopPosts(n: number = 6): Promise<PostWithData[]> {
     take: n
   });
 }
+
+export function getPostsBySearchQuery(query: string): Promise<PostWithData[]> {
+  return prisma.post.findMany({
+    where: {
+      OR: [
+        { title: { contains: query } },
+        { content: { contains: query } }
+      ]
+    },
+    include: {
+      problem: { select: { slug: true } },
+      user: { select: { name: true } },
+      _count: { select: { comments: true } }
+    }
+  });
+}
