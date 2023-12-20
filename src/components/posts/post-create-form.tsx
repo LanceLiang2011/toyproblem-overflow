@@ -39,7 +39,7 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
   }, [_form, content]);
   const [code, setCode] = useState(
     `function solution() {
-      // your code here
+  // your code here
 }`
   );
   const [darkMode, setDarkMode] = useState(true);
