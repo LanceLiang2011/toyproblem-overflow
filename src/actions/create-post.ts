@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import paths from '@/paths';
-var esprima = require('esprima');
+import { isSolutionValid } from '@/utils/tests';
 
 
 const createPostSchema = z.object({
@@ -47,10 +47,13 @@ export async function createPost(
     return { errors: { _form: ['You are posting to an unexist problem'] } };
   }
 
+  const solutionValid = isSolutionValid(result.data.content);
+  if (typeof solutionValid === 'string') {
+    return { errors: { _form: [solutionValid] } };
+  }
+
   let post: Post;
   try {
-    esprima.parseScript(result.data.content);
-
     post = await prisma.post.create({
       data: {
         title: result.data.title,
