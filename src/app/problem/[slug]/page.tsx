@@ -30,11 +30,11 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
 
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
-      <div className="col-span-3">
+      <div className="col-span-4 md:col-span-3">
         <h1 className="text-2xl font-bold mb-2">Solutions for {slugToTitle(slug)}</h1>
         <PostsList getPosts={() => getPostsByProblemSlug(slug)} />
       </div>
-      <div className="p-2">
+      <div className="p-2 col-span-4 md:col-span-1">
         <PostCreateForm slug={slug} />
         <div className="mt-4">
           <Card>
