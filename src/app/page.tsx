@@ -5,6 +5,8 @@ import { PROBMELMS } from '@/components/problems/problems-list';
 import PostsList from '@/components/posts/posts-list';
 import { getTopPosts } from '@/db/queries/posts';
 
+export const revalidate = 10;
+
 export default function Home() {
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
