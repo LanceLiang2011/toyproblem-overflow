@@ -16,13 +16,17 @@ const createProblemSchema = z.object({
     .regex(/^[a-z-]+$/, {
       message: 'must be lowercase letters and/or dashes without spaces'
     }),
-  description: z.string().min(10).max(500)
+  description: z.string().min(1).max(500),
+  expectedInput: z.string().min(1).max(500),
+  expectedOutput: z.string().min(1).max(500)
 });
 
 export interface CreateProblemFormState {
   errors: {
     name?: string[];
     description?: string[];
+    expectedInput?: string[];
+    expectedOutput?: string[];
     _form?: string[];
   };
 }
@@ -39,7 +43,9 @@ export async function createProblem(
 
   const result = createProblemSchema.safeParse({
     name: formData.get('name'),
-    description: formData.get('description')
+    description: formData.get('description'),
+    expectedInput: formData.get('expectedInput'),
+    expectedOutput: formData.get('expectedOutput'),
   });
 
   if (!result.success) {
@@ -51,7 +57,9 @@ export async function createProblem(
     problem = await prisma.problem.create({
       data: {
         slug: result.data.name,
-        description: result.data.description
+        description: result.data.description,
+        expectedInput: result.data.expectedInput,
+        expectedOutput: result.data.expectedOutput,
       }
     });
   } catch (error: unknown) {

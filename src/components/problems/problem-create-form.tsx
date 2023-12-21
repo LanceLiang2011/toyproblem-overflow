@@ -21,7 +21,7 @@ export default function ProblemCreateForm() {
     createProblem,
     { errors: {} }
   );
-  const {_form, name, description} = useMemo(() => formState.errors, [formState.errors]);
+  const {_form, name, description, expectedInput, expectedOutput} = useMemo(() => formState.errors, [formState.errors]);
   useEffect(() => {
     if (_form && _form.length > 0) {
       toast.error(_form?.join(', '));
@@ -53,6 +53,24 @@ export default function ProblemCreateForm() {
               isInvalid={!!description}
               errorMessage={description?.join(', ')}
             />
+            <div className="flex gap-2">
+              <Input
+                name="expectedInput"
+                label="Expected Input"
+                labelPlacement="outside"
+                placeholder="e.g. 1 | 2 | 3"
+                isInvalid={!!expectedInput}
+                errorMessage={expectedInput?.join(', ')}
+              />
+              <Input
+                name="expectedOutput"
+                label="Expected Output"
+                labelPlacement="outside"
+                placeholder="e.g. 6"
+                isInvalid={!!expectedOutput}
+                errorMessage={expectedOutput?.join(', ')}
+              />
+            </div>
             <FormButton color="success" type="submit">
               Submit
             </FormButton>

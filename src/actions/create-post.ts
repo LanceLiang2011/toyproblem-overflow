@@ -8,7 +8,6 @@ import { auth } from '@/auth';
 import paths from '@/paths';
 import { isSolutionValid } from '@/utils/tests';
 
-
 const createPostSchema = z.object({
   title: z.string().min(3).max(50),
   content: z.string().min(5).max(800)
@@ -47,7 +46,16 @@ export async function createPost(
     return { errors: { _form: ['You are posting to an unexist problem'] } };
   }
 
-  const solutionValid = isSolutionValid(result.data.content);
+  const problem = await prisma.problem.findFirst({
+    where: { slug },
+    select: { expectedInput: true, expectedOutput: true }
+  });
+
+  if (!problem) {
+    return { errors: { _form: ['You are posting to an unexist problem'] } };
+  };
+
+  const solutionValid = isSolutionValid(result.data.content, problem.expectedInput, problem.expectedOutput);
   if (typeof solutionValid === 'string') {
     return { errors: { _form: [solutionValid] } };
   }
@@ -64,7 +72,9 @@ export async function createPost(
     });
   } catch (error) {
     if (error instanceof Error) {
-      return { errors: { _form: ['Your code might be invalid',error.message] } };
+      return {
+        errors: { _form: ['Your code might be invalid', error.message] }
+      };
     }
     return { errors: { _form: ['Unknown error'] } };
   }

@@ -2,7 +2,7 @@ import PostCreateForm from '@/components/posts/post-create-form';
 import PostsList from '@/components/posts/posts-list';
 import { getPostsByProblemSlug } from '@/db/queries/posts';
 import { prisma } from '@/db';
-import { Card, CardHeader, CardBody } from '@nextui-org/react';
+import { Card, CardHeader, CardBody, Code } from '@nextui-org/react';
 
 interface ProblemPageProps {
   params: {
@@ -41,6 +41,9 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
             <CardHeader className="font-bold">{slugToTitle(slug)}</CardHeader>
             <CardBody>
               <p>{problem?.description}</p>
+              <br />
+              <p>Expected input: <Code>{problem?.expectedInput}</Code></p>
+              <p>Expected output: <Code>{problem?.expectedOutput}</Code></p>
             </CardBody>
           </Card>
         </div>
